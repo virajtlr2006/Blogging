@@ -2,6 +2,18 @@
 import { deleteblogAction, singleblogAction } from '@/Action/blogAction'
 import { useParams, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+import { Button } from "@/components/ui/button"
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 const page = () => {
 
@@ -11,7 +23,7 @@ const page = () => {
     useEffect(() => {
         singleblog()
     }, [])
-const router = useRouter()
+    const router = useRouter()
     const { id } = useParams() //Accessing [id] through URL
     // console.log(id)
 
@@ -43,8 +55,24 @@ const router = useRouter()
                 <p>{showblog.description}</p>
                 {isUsersblog &&
                     <div>
-                        <button onClick={editblog}>Edit</button>
-                        <button onClick={deleteblog}>Delete</button>
+                        <Button className='bg-black text-white' variant="outline" onClick={editblog}>Edit</Button>
+                       
+                        <AlertDialog>
+                            <AlertDialogTrigger>Delete</AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>Are you absolutely sure to delete account ?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        This action cannot be undone. This will permanently delete your account
+                                        and remove your data from our servers.
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction onClick={deleteblog}> Delete</AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
                     </div>
                 }
             </>}
